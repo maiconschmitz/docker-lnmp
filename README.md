@@ -1,51 +1,75 @@
 # docker-lnmp
-Stack LNMP (Linux, Nginx, MySQL, PHP7) utilizando Docker
+Stack LNMP (Linux, Nginx, MySQL, PHP) utilizando Docker
 
-**Importante:** O Docker deve ser instalado previamente.
+`Importante:` O Docker deve ser instalado previamente.
+
 
 ## Stack de Desenvolvimento
 
 `Atenção:` Nenhum tipo de configuração de segurança foi aplicada nesta Stack!
 
-Esta configuração lhe permite rodar uma Stack LNMP (Linux, Nginx, MySQL, PHP7), utilizando a Engine do Docker, em modo de Desenvolvimento.
+Esta configuração lhe permite rodar uma Stack LNMP (Linux, Nginx, MySQL, PHP), utilizando a Engine do Docker, em modo de Desenvolvimento.
 
 Esta Stack possui uma particularidade, que é a utilização de um único Servidor MySQL para todos os projetos, centralizando assim, todas as bases de dados em uma única imagem Docker (um só local).
 
+
+### Versões das ferramentas que compõem a Stack
+
+As seguintes versões das ferramentas que compõem a Stack estão sendo atualmente utilizadas:
+
+| Ferramenta | Versão  |
+|:----------:|:--------|
+| Nginx      | 1.19.10 |
+| MySQL      | 8.0.24  |
+| PHP        | 7.3.24  |
+
+
 ### Configuração
 
-Siga os passos abaixo, para criar uma única Rede para as sua Imagens Docker.
+Siga os passos abaixo, para criar uma única Rede para os seus containers Docker.
 
 Assim que esta rede for criada, você irá criar também, um único Servidor MySQL.
 
-### Criando uma única Rede para as sua Imagens
+
+### Criando uma única Rede para os seus containers
 
 Acesse o terminal e execute o seguinte comando:
 
     docker network create rede-local-docker
-    
-Onde **rede-local-docker** é o nome da sua rede. 
 
-Mantenha este nome, para que você não precise editar os arquivos de configuração!
+Onde **rede-local-docker** é o nome da sua rede.
+
+`Dica:` Mantenha este nome, para que não seja necessário editar os arquivos de configuração!
+
 
 ### Criando um único Servidor MySQL
 
 Acesse o terminal e execute o comando abaixo, para rodar um container com MySQL na Rede previamente criada:
-    
-    docker run --name servidor-mysql --network=rede-local-docker -v ˜/projetos/mysql/data/db:/var/lib/mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql/mysql-server:5.7
 
-Onde **˜/projetos/mysql/data/db** é uma estrutura de diretórios, onde as bases de dados serão salvas.
+    docker run -d --restart=always --name servidor-mysql-8 --network=rede-local-docker -v /projetos/mysql8/data/db:/var/lib/mysql -p 3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_ROOT_HOST=% mysql/mysql-server:8.0.24
 
-Altere este caminho de acordo com a sua necessidade!
+Onde **/projetos/mysql8/data/db** é uma estrutura de diretórios, onde as bases de dados serão salvas.
 
-Lembre-se, quando precisar rodar o servidor MySQL novamente, bastará que você execute o seguinte comando:
+Altere o caminho acima, de acordo com a sua necessidade.
 
-    docker start servidor-mysql
-    
+É importante notar que este servidor MySQL não possui senha de acesso!
+
+Lembre-se, quando desejar manipular o servidor MySQL, bastará que você execute os comandos, utilizando o nome da imagem **servidor-mysql-8**:
+
+Para rodar:
+
+    docker start servidor-mysql-8
+
+Para rodar:
+
+    docker stop servidor-mysql-8
+
+
 ### Copiando e Rodando
 
-Agora, para rodar o seu projeto, bastará copiar os arquivos necessários para a raiz do seu projeto.
+Agora, para rodar o seu projeto, bastará copiar os arquivos necessários para a raiz do mesmo.
 
-Para isto, basta que você copie os seguintes arquivos:
+Para isto, copie os seguintes arquivos:
 - app.docker
 - docker-compose.yml
 - host.conf
