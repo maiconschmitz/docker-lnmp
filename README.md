@@ -19,9 +19,9 @@ As seguintes versões das ferramentas que compõem a Stack estão sendo atualmen
 
 | Ferramenta | Versão  |
 |:----------:|:--------|
-| Nginx      | 1.19.10 |
-| MySQL      | 8.0.24  |
-| PHP        | 7.3.24  |
+| Nginx      | 1.25.4  |
+| MySQL      | 8.0.32  |
+| PHP        | 8.2     |
 
 
 ### Configuração
@@ -46,7 +46,10 @@ Onde **rede-local-docker** é o nome da sua rede.
 
 Acesse o terminal e execute o comando abaixo, para rodar um container com MySQL na Rede previamente criada:
 
-    docker run -d --restart=always --name servidor-mysql-8 --network=rede-local-docker -v /projetos/mysql8/data/db:/var/lib/mysql -p 3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_ROOT_HOST=% mysql/mysql-server:8.0.24
+    docker run -d --restart=always --name servidor-mysql-8 --network=rede-local-docker -v ˜/projetos/mysql8/data/db:/var/lib/mysql -p 3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_ROOT_HOST=% mysql/mysql-server:8.0.32
+
+
+docker run -d --restart=always --name servidor-mysql-8 --network=rede-local-docker -v /Users/maiconschmitz/projetos/mysql8/data/db:/var/lib/mysql -p 3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_ROOT_HOST=% mysql/mysql-server:8.0.32
 
 Onde **/projetos/mysql8/data/db** é uma estrutura de diretórios, onde as bases de dados serão salvas.
 

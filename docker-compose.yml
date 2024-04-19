@@ -18,5 +18,5 @@ services:
       - ./:/var/www
 networks:
   default:
-    external:
-      name: rede-local-docker
+    name: rede-local-docker
+    external: true
